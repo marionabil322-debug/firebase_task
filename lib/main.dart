@@ -1,6 +1,8 @@
 import 'package:firebase/cubit/cubit/auth_cubit.dart';
+import 'package:firebase/data/repo.dart';
 import 'package:firebase/firebase_options.dart';
 import 'package:firebase/screens/auth_screen.dart';
+import 'package:firebase/screens/home_screen.dart';
 import 'package:firebase/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: BlocProvider(
+      home: /* AuthRepo.currentUser != null
+          ? HomeScreen()
+          :*/ BlocProvider(
         create: (context) => AuthCubit(),
         child: RegisterScreen(),
       ),

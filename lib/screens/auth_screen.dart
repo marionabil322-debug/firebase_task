@@ -1,4 +1,5 @@
 import 'package:firebase/cubit/cubit/auth_cubit.dart';
+import 'package:firebase/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,11 +15,12 @@ class _AuthScreenState extends State<AuthScreen> {
   late TabController _tabController;
   final _emilcontroller = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
   bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF2D62ED); // لون أزرق عصري
+    const Color primaryColor = Color(0xFF2D62ED);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -30,7 +32,6 @@ class _AuthScreenState extends State<AuthScreen> {
             children: [
               const SizedBox(height: 60),
 
-              // Logo placeholder or Icon
               Center(
                 child: Container(
                   height: 80,
@@ -49,7 +50,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
               const SizedBox(height: 40),
 
-              // Welcome Text
               const Text(
                 "Welcome Back!",
                 style: TextStyle(
@@ -66,7 +66,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
               const SizedBox(height: 40),
 
-              // Email Field
               _buildInputLabel("Email Address"),
               TextField(
                 controller: _emilcontroller,
@@ -78,7 +77,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
               const SizedBox(height: 25),
 
-              // Password Field
               _buildInputLabel("Password"),
               TextField(
                 controller: _passwordController,
@@ -93,7 +91,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
 
-              // Forgot Password
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -110,10 +107,15 @@ class _AuthScreenState extends State<AuthScreen> {
 
               const SizedBox(height: 30),
 
-              // Sign In Button
               BlocListener<AuthCubit, AuthState>(
                 listener: (context, state) {
-                  // TODO: implement listener
+                  if (state is AuthSuccessState) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (e) => false,
+                    );
+                  }
                 },
                 child: SizedBox(
                   width: double.infinity,
@@ -146,7 +148,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
               const SizedBox(height: 30),
 
-              // Divider "OR"
               Row(
                 children: [
                   Expanded(child: Divider(color: Colors.grey.shade300)),
@@ -168,7 +169,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
               const SizedBox(height: 40),
 
-              // Sign Up Link
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -196,7 +196,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // مساعد لبناء عناوين الحقول
   Widget _buildInputLabel(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0, left: 4),
@@ -211,7 +210,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // مساعد لتصميم الحقول (Decoration)
   InputDecoration _buildInputDecoration({
     required String hint,
     required IconData icon,
@@ -245,7 +243,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  // مساعد لبناء أزرار التواصل الاجتماعي
   Widget _buildSocialButton(String label, String iconUrl) {
     return Container(
       height: 55,

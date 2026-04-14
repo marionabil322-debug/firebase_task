@@ -1,3 +1,4 @@
+import 'package:firebase/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase/cubit/cubit/auth_cubit.dart'; // تأكد من المسار عندك
@@ -123,7 +124,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 const SizedBox(height: 30),
 
-                // زرار الـ Sign Up
                 BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
                     if (state is AuthLoadingState) {
@@ -138,13 +138,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: ElevatedButton(
                         onPressed: _agreeToTerms
                             ? () {
-                                // إرسال الريكويست فعلياً للكوبيت
                                 context
                                     .read<AuthCubit>()
                                     .registerWithEmailAndPassword(
-                                      emailAddress: _emailController.text
-                                          .trim(),
-                                      password: _passwordController.text,
+                                      UserModel(
+                                        name: _nameController.text,
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      ),
                                     );
                               }
                             : null,
